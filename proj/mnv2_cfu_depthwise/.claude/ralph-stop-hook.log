@@ -1,0 +1,8 @@
+----
+ts: 2026-09-22T09:19:10Z
+pwd: /mnt/novix-k8s-workspace-root/session_acd9149fb874a3030f4797b13f2f1358/workspace/project/proj/mnv2_cfu_depthwise
+plugin_root: /app/plugins/ralph-wiggum
+workspace_from_plugin: 
+hook_cwd: /mnt/novix-k8s-workspace-root/session_acd9149fb874a3030f4797b13f2f1358/workspace/project/proj/mnv2_cfu_depthwise
+state_file: /mnt/novix-k8s-workspace-root/session_acd9149fb874a3030f4797b13f2f1358/workspace/.claude/ralph-loop.local.md
+transcript_path: /home/novix/.claude_data/projects/-mnt-novix-k8s-workspace-root-session-acd9149fb874a3030f4797b13f2f1358-workspace/f8c7f928-c6c6-400d-a9a6-9ea75f63b299.jsonl

@@ -73,9 +73,9 @@ def patch_cpu_variant():
         # This is a workaround for PR #619; vexriscv has changed to
         #   '-march=rv32i2p0_m', and this undoes that for these variants.
         #   If we don't have this workaround, we get a link error.
-        'full+cfu':             '-march=rv32im -mabi=ilp32',
-        'full+cfu+debug':       '-march=rv32im -mabi=ilp32',
-        'full':                 '-march=rv32im -mabi=ilp32',
+        'full+cfu':             '-march=rv32im_zicsr -mabi=ilp32',
+        'full+cfu+debug':       '-march=rv32im_zicsr -mabi=ilp32',
+        'full':                 '-march=rv32im_zicsr -mabi=ilp32',
     })
 
     ########### ADD code to existing add_soc_components() #######
@@ -216,11 +216,11 @@ def build_cpu_variant_if_needed(variant):
     #
     # do some patching
     #
-    arch  = "rv32im"
+    arch  = "rv32im_zicsr"
     abi   = "ilp32"
     hwDiv = ""
     if cpu_params["mulDiv"] == "false":
-        arch  = "rv32i"
+        arch  = "rv32i_zicsr"
         hwDiv = "  -mno-div"
     else: 
         if cpu_params["hardwareDiv"] == "false":

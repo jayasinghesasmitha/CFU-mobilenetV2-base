@@ -39,7 +39,7 @@ From the project directory:
 For a clean rebuild:
 
     make clean
-    make renode
+    make renode NO_CFU=1 SW_ONLY=1
 
 The baseline sets `SW_ONLY=1`, so the Renode run does not build a Verilator CFU.
 

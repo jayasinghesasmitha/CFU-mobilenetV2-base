@@ -1,0 +1,40 @@
+# Host (PC) build: TFLM from the repo's vendored sources + this project's patched kernels + the real RTL via Verilator.
+#   make -f sim/Makefile.host tflm      # compile TFLM + project sources into build_host/obj  (slow, once)
+PROJ   := $(abspath $(dir $(lastword $(MAKEFILE_LIST)))/..)
+TFLM   ?= $(PROJ)/../../third_party/tflite-micro
+COMMON ?= $(PROJ)/../../common/src
+OBJ    := $(PROJ)/build_host/obj
+SRC    := $(PROJ)/src
+
+DIRS := tensorflow/lite tensorflow/lite/c tensorflow/lite/core/api tensorflow/lite/core/c \
+        tensorflow/lite/kernels tensorflow/lite/kernels/internal tensorflow/lite/kernels/internal/reference \
+        tensorflow/lite/micro tensorflow/lite/micro/kernels tensorflow/lite/micro/memory_planner \
+        tensorflow/lite/micro/arena_allocator tensorflow/lite/micro/tflite_bridge tensorflow/lite/schema
+
+TFLM_CC := $(foreach d,$(DIRS),$(wildcard $(TFLM)/$(d)/*.cc))
+TFLM_CC := $(filter-out %_test.cc %_test_common.cc %_test_data.cc %test_helpers.cc %test_helper_custom_ops.cc %mock_micro_graph.cc %test_conv_model.cc %micro_test.cc,$(TFLM_CC))
+# the project overrides this one
+TFLM_CC := $(filter-out $(TFLM)/tensorflow/lite/micro/kernels/pad.cc $(TFLM)/tensorflow/lite/micro/kernels/hard_swish.cc $(TFLM)/tensorflow/lite/micro/kernels/reduce_common.cc $(TFLM)/tensorflow/lite/micro/kernels/mul.cc,$(TFLM_CC))
+PROJ_CC := $(SRC)/tensorflow/lite/micro/kernels/pad.cc $(SRC)/tensorflow/lite/micro/kernels/hard_swish.cc $(SRC)/tensorflow/lite/micro/kernels/reduce_common.cc $(SRC)/tensorflow/lite/micro/kernels/mul.cc $(SRC)/tensorflow/lite/kernels/internal/reference/integer_ops/conv.cc \
+           $(SRC)/fused_dsc.cc
+PROJ_C  := $(SRC)/dsc_driver.c $(SRC)/dsc_ref.c
+
+CXXFLAGS := -std=c++17 -O1 -w -DNDEBUG -DTF_LITE_STATIC_MEMORY -DTF_LITE_DISABLE_X86_NEON -DFUSED_HOST $(EXTRA) \
+            -I$(SRC) -I$(PROJ)/sim/host_overrides -I$(TFLM) -I$(TFLM)/third_party/gemmlowp -I$(TFLM)/third_party/flatbuffers/include \
+            -I$(TFLM)/third_party/ruy -I$(TFLM)/third_party/kissfft -I$(COMMON) -MMD -MP
+CFLAGS   := -O1 -w -DNDEBUG -DDSC_CFU_STUB $(EXTRA) -I$(SRC) -MMD -MP
+
+OBJS := $(patsubst $(TFLM)/%.cc,$(OBJ)/tflm/%.o,$(TFLM_CC)) $(patsubst $(SRC)/%.cc,$(OBJ)/proj/%.o,$(PROJ_CC)) \
+        $(patsubst $(SRC)/%.c,$(OBJ)/proj/%.o,$(PROJ_C))
+
+.PHONY: tflm
+tflm: $(PROJ)/build_host/libmnv2host.a
+$(PROJ)/build_host/libmnv2host.a: $(OBJS)
+	ar rcs $@ $(OBJS)
+$(OBJ)/tflm/%.o: $(TFLM)/%.cc
+	@mkdir -p $(dir $@); g++ $(CXXFLAGS) -c $< -o $@
+$(OBJ)/proj/%.o: $(SRC)/%.cc
+	@mkdir -p $(dir $@); g++ $(CXXFLAGS) -c $< -o $@
+$(OBJ)/proj/%.o: $(SRC)/%.c
+	@mkdir -p $(dir $@); gcc $(CFLAGS) -c $< -o $@
+-include $(OBJS:.o=.d)

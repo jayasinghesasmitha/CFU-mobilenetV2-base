@@ -1,0 +1,28 @@
+# Reference output of the PLAIN (no CFU) TFLM interpreter for inputs/cat.jpg (src/cat_image.h) with
+# model/mobilenetv3_small_full_int8.tflite, produced on a PC from this repo's vendored TFLM. Every correct run
+# (CPU only or fused CFU) must print exactly these values (same format as the app's 'MobileNetV3 Classification Result').
+Min  = 0 x 10^-6
+Max  = 93750 x 10^-6
+Mean = 753 x 10^-6
+Top-1 class index : 38
+Top-1 score       : 93750 x 10^-6
+output[0] = 0 x 10^-6
+output[1] = 0 x 10^-6
+output[2] = 0 x 10^-6
+output[3] = 0 x 10^-6
+output[4] = 0 x 10^-6
+output[5] = 0 x 10^-6
+output[6] = 0 x 10^-6
+output[7] = 0 x 10^-6
+output[8] = 0 x 10^-6
+output[9] = 0 x 10^-6
+output[10] = 0 x 10^-6
+output[11] = 0 x 10^-6
+output[12] = 0 x 10^-6
+output[13] = 0 x 10^-6
+output[14] = 0 x 10^-6
+output[15] = 0 x 10^-6
+output[16] = 0 x 10^-6
+output[17] = 0 x 10^-6
+output[18] = 0 x 10^-6
+output[19] = 0 x 10^-6

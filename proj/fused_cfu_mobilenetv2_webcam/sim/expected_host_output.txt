@@ -1,0 +1,28 @@
+# Reference output of the PLAIN (no CFU) TFLM interpreter for inputs/cat.jpg (src/cat_image.h),
+# produced on a PC from this repo's vendored TFLM. Every correct run (CPU only, existing 1x1 CFU, fused CFU)
+# must print exactly these values (same format as the app's 'MobileNetV2 Classification Result').
+Top-1 class index : 64
+Top-1 score       : 406250 x 10^-6
+Min  = 0 x 10^-6
+Max  = 406250 x 10^-6
+Mean = 781 x 10^-6
+output[0] = 0 x 10^-6
+output[1] = 0 x 10^-6
+output[2] = 0 x 10^-6
+output[3] = 0 x 10^-6
+output[4] = 0 x 10^-6
+output[5] = 0 x 10^-6
+output[6] = 0 x 10^-6
+output[7] = 0 x 10^-6
+output[8] = 0 x 10^-6
+output[9] = 0 x 10^-6
+output[10] = 0 x 10^-6
+output[11] = 0 x 10^-6
+output[12] = 0 x 10^-6
+output[13] = 0 x 10^-6
+output[14] = 0 x 10^-6
+output[15] = 0 x 10^-6
+output[16] = 0 x 10^-6
+output[17] = 0 x 10^-6
+output[18] = 0 x 10^-6
+output[19] = 0 x 10^-6
